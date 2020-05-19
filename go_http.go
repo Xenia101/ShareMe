@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 func uploadFile(w http.ResponseWriter, r *http.Request) {
@@ -21,7 +22,10 @@ func uploadFile(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("File Size: %+v\n", handler.Size)
 	fmt.Printf("MIME Header: %+v\n", handler.Header)
 
-	tempFile, err := ioutil.TempFile("upload_files", handler.Filename)
+	filename := strings.Split(handler.Filename, ".")
+	tempName := "*." + filename[1]
+
+	tempFile, err := ioutil.TempFile("upload_files", tempName)
 	if err != nil {
 		fmt.Println(err)
 	}
