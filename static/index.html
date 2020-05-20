@@ -7,10 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <title>Share Me</title>
 
     <style>
       html, body {
+        background-color: #3AAFA9;
         height: 100%
       }
       .container {
@@ -19,11 +21,38 @@
         justify-content: center;
         align-items: center;
       }
-      .b-color{
-      }
       .box-file{
+        width: 200px;
+        height: 200px;
+        background-image: url('img/direction.png');
+        background-size: 50px;
+        background-repeat: no-repeat;
+        background-position: center;
         padding: 20px;
-        border: 3px dashed;
+        border: 3px #FEFFFF dashed;
+      }
+      #upload{
+        width: 200px;
+        height: 200px;
+      }
+      .box-file input{
+        display: none;
+      }
+      .navbar{
+        position: absolute;
+        top: 0;
+      }
+      .navbar img{
+        padding: 1%;
+        width: 100px;
+        height: auto;
+      }
+      .pointer{
+        cursor: pointer;
+      }
+      .text{
+        font-family: 'Anton', sans-serif;
+        color: #17252A;
       }
 
     </style>
@@ -31,13 +60,17 @@
   <body>
     <div class="container b-color">
       <!-- Content here -->
-      <div>
-          <form enctype="multipart/form-data" action="http://localhost:5000/upload" method="post">
-            <div class="box-file rounded-lg">
-              <input type="file" name="myFile" />
-            </div>
-          </form>
-        </div>
+      <nav class="navbar">
+        <a class="navbar-brand" href="#"><img src="img/file.png" alt=""></a>
+        <h1 class="text text-center">SHARE ME</h1>
+      </nav>
+      <div class="pointer">
+        <form enctype="multipart/form-data" action="http://localhost:5000/upload" method="post">
+          <div class="box-file rounded-lg">
+            <input id="upload" type="file" name="myFile" />
+            <p class="text-center text">Drop Your File Here</p>
+          </div>
+        </form>
       </div>
     </div>
 
@@ -53,7 +86,6 @@
         $("input[type='file']")
           .prop("files", e.originalEvent.dataTransfer.files)
           .closest("form")
-          .submit();
       });
     </script>
   </body>
