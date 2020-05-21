@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
+	"html/template"
 	"io"
 	"log"
 	"net/http"
@@ -11,6 +12,8 @@ import (
 	"path/filepath"
 	"strings"
 )
+
+var tpl = template.Must(template.ParseGlob("code.html"))
 
 func uploadFile(w http.ResponseWriter, r *http.Request) {
 	r.ParseMultipartForm(10 << 20)
@@ -27,8 +30,9 @@ func uploadFile(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("File Size: %+v\n", handler.Size)
 	fmt.Printf("MIME Header: %+v\n", handler.Header)
 
-	hash := handler.Filename + "." + strings.ToUpper(GetMD5Hash(handler.Filename)[:6])
-	path := filepath.Join("upload_files", hash)
+	hash := strings.ToUpper(GetMD5Hash(handler.Filename)[:6])
+	hashed_f := handler.Filename + "." + hash
+	path := filepath.Join("upload_files", hashed_f)
 	f, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		fmt.Println(err)
@@ -37,7 +41,11 @@ func uploadFile(w http.ResponseWriter, r *http.Request) {
 	defer f.Close()
 	io.Copy(f, file)
 
-	fmt.Fprintf(w, handler.Filename)
+	err = tpl.ExecuteTemplate(w, "code.html", hash)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 }
 
 func GetMD5Hash(text string) string {
