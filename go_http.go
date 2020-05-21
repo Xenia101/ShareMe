@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -23,7 +25,13 @@ func uploadFile(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("MIME Header: %+v\n", handler.Header)
 
 	filename := strings.Split(handler.Filename, ".")
-	tempName := "*." + filename[1]
+	tempName := filename[0] + "." + filename[1]
+
+	f, err := os.OpenFile("/upload_files/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
+	if err != nil {
+		fmt.Println(err)
+	}
+	io.Copy(f, file)
 
 	tempFile, err := ioutil.TempFile("upload_files", tempName)
 	if err != nil {
@@ -38,7 +46,7 @@ func uploadFile(w http.ResponseWriter, r *http.Request) {
 
 	tempFile.Write(fileBytes)
 
-	fmt.Fprintf(w, "Successfully Uploaded File\n")
+	fmt.Fprintf(w, handler.Filename)
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
