@@ -65,10 +65,19 @@
         <h1 class="text text-center">SHARE ME</h1>
       </nav>
       <div class="pointer">
-        <form enctype="multipart/form-data" action="http://localhost:5000/upload" method="post">
+        <form class="mb-5" enctype="multipart/form-data" action="http://localhost:5000/upload" method="post">
           <div class="box-file rounded-lg">
             <input id="myFile" type="file" name="myFile" />
             <p class="text-center text">Drop Your File Here</p>
+          </div>
+        </form>
+        <hr>
+        <form class="mt-5" action="">
+          <div>
+            <input type="text" class="form-control" maxlength="6" placeholder="Input Your Private Code">
+          </div>
+          <div class="text-center mt-3">
+            <input class="btn btn-light" type="submit" name="" id="" value="Download">
           </div>
         </form>
       </div>
