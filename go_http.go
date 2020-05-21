@@ -1,12 +1,14 @@
 package main
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -19,35 +21,28 @@ func uploadFile(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
-
 	defer file.Close()
+
 	fmt.Printf("Uploaded File: %+v\n", handler.Filename)
 	fmt.Printf("File Size: %+v\n", handler.Size)
 	fmt.Printf("MIME Header: %+v\n", handler.Header)
 
-	filename := strings.Split(handler.Filename, ".")
-	tempName := filename[0] + "." + filename[1]
-
-	f, err := os.OpenFile("/upload_files/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
+	hash := handler.Filename + "." + strings.ToUpper(GetMD5Hash(handler.Filename)[:6])
+	path := filepath.Join("upload_files", hash)
+	f, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		fmt.Println(err)
+		return
 	}
+	defer f.Close()
 	io.Copy(f, file)
 
-	tempFile, err := ioutil.TempFile("upload_files", tempName)
-	if err != nil {
-		fmt.Println(err)
-	}
-	defer tempFile.Close()
-
-	fileBytes, err := ioutil.ReadAll(file)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	tempFile.Write(fileBytes)
-
 	fmt.Fprintf(w, handler.Filename)
+}
+
+func GetMD5Hash(text string) string {
+	hash := md5.Sum([]byte(text))
+	return hex.EncodeToString(hash[:])
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
