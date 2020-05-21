@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -50,16 +51,17 @@ func uploadFile(w http.ResponseWriter, r *http.Request) {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "static/index.html")
-}
-
-func setupRoutes() {
-	http.HandleFunc("/", index)
-	http.HandleFunc("/upload", uploadFile)
-	http.ListenAndServe(":5000", nil)
+	http.ServeFile(w, r, "index.html")
 }
 
 func main() {
-	fmt.Println("hello World")
-	setupRoutes()
+	mux := http.NewServeMux()
+	fileServer := http.FileServer(http.Dir("static/"))
+	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
+	mux.HandleFunc("/upload", uploadFile)
+	mux.HandleFunc("/", index)
+
+	log.Println("Starting server on :5000")
+	err := http.ListenAndServe(":5000", mux)
+	log.Fatal(err)
 }
