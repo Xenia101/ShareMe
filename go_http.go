@@ -95,7 +95,20 @@ func download(w http.ResponseWriter, r *http.Request) {
 		for _, file := range files {
 			t := strings.Split(file.Name(), ".")
 			if t[len(t)-1] == privateCode {
-				fmt.Println(file.Name())
+				path := "./upload_files/" + file.Name()
+
+				f, err := os.Open(path)
+				if err != nil {
+					return
+				}
+				defer f.Close()
+
+				filename := strings.Split(file.Name(), ".")
+				attachment := "attachment; filename=" + filename[0] + "." + filename[1]
+				w.Header().Set("Content-Disposition", attachment)
+				w.Header().Set("Content-Type", r.Header.Get("Content-Type"))
+
+				io.Copy(w, f)
 			}
 		}
 	} else {
