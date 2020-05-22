@@ -99,6 +99,7 @@ func download(w http.ResponseWriter, r *http.Request) {
 
 				f, err := os.Open(path)
 				if err != nil {
+					log.Fatal(err)
 					return
 				}
 				defer f.Close()
@@ -107,12 +108,12 @@ func download(w http.ResponseWriter, r *http.Request) {
 				attachment := "attachment; filename=" + filename[0] + "." + filename[1]
 				w.Header().Set("Content-Disposition", attachment)
 				w.Header().Set("Content-Type", r.Header.Get("Content-Type"))
-
 				io.Copy(w, f)
+
+				http.Redirect(w, r, "#", 301)
 			}
 		}
 	} else {
-		fmt.Println("x")
 		http.Redirect(w, r, "#", 301)
 	}
 }
