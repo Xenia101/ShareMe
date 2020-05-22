@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
+    <link rel="shortcut icon" href="./static/favicon.ico">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <title>Share Me</title>
@@ -101,7 +102,7 @@
         
         <div class="sendstyle">
           <h5><strong>Send</strong></h5>
-          <form class="mb-5" enctype="multipart/form-data" action="http://localhost:5000/upload" method="post">
+          <form class="mb-5" enctype="multipart/form-data" action="/upload" method="post">
             <div class="box-file rounded-lg">
               <input id="myFile" type="file" name="myFile" />
               <p class="text-center" style="color:#FEFFFF">Drop Your File Here</p>
