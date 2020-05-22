@@ -59,17 +59,29 @@
         color:#17252A
       }
       .foot{
+        box-shadow: 0px -10px 10px -10px black;
         position: absolute;
         bottom: 0;
         left: 0;
-        background-color: red;
+        background-color: white;
         width: 100%;
         height: 42px;
       }
       .foot a{
-        color: white;
+        color: #17252A;
+        text-decoration: none;
       }
-
+      .git{
+        width: 26px;
+      }
+      @media screen and (max-width: 600px) {
+        .desc {
+          display: none;
+        }
+        .sendstyle{
+          margin-bottom: -20px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -80,20 +92,22 @@
         <h1 class="text text-center">SHARE ME</h1>
       </nav>
       <div class="pointer">
-        <div class="mb-5">
+        <div class="desc mb-5">
           <blockquote class="blockquote text-center">
             <p class="mb-0 text">SHARE ME is a file transfer web service.</p>
             <footer class="blockquote-footer text-white-50">Developed by XENIA</footer>
           </blockquote>
         </div>
         
-        <h5><strong>Send</strong></h5>
-        <form class="mb-5" enctype="multipart/form-data" action="http://localhost:5000/upload" method="post">
-          <div class="box-file rounded-lg">
-            <input id="myFile" type="file" name="myFile" />
-            <p class="text-center" style="color:#FEFFFF">Drop Your File Here</p>
-          </div>
-        </form>
+        <div class="sendstyle">
+          <h5><strong>Send</strong></h5>
+          <form class="mb-5" enctype="multipart/form-data" action="http://localhost:5000/upload" method="post">
+            <div class="box-file rounded-lg">
+              <input id="myFile" type="file" name="myFile" />
+              <p class="text-center" style="color:#FEFFFF">Drop Your File Here</p>
+            </div>
+          </form>
+        </div>
         <hr>
 
         <h5><strong>Receive</strong></h5>
@@ -109,7 +123,10 @@
     </div>
 
     <footer class="foot text-center">
-      <h3><a href="https://github.com/Xenia101/ShareMe">GitHub</a></h3>
+      <h3>
+        <img class="git" src="./static/git.png" alt="">
+        <sub><a href="https://github.com/Xenia101/ShareMe">GitHub</a></sub>
+      </h3>
 
     </footer>
 
