@@ -100,11 +100,11 @@
           </blockquote>
         </div>
         
-        <div class="sendstyle">
+        <div class="sendstyle" onclick="clicktoupload()">
           <h5><strong>Send</strong></h5>
           <form class="mb-5" enctype="multipart/form-data" action="/upload" method="post">
             <div class="box-file rounded-lg">
-              <input id="myFile" type="file" name="myFile" />
+              <input class="myFile" id="myFile" type="file" name="myFile" />
               <p class="text-center" style="color:#FEFFFF">Drop Your File Here</p>
             </div>
           </form>
@@ -137,13 +137,18 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
     <script>
-      $(document).on("dragover drop", function(e) {
+      $('.box-file').on("dragover drop", function(e) {
         e.preventDefault();
         }).on("drop", function(e) {
           $("input[type='file']")
             .prop("files", e.originalEvent.dataTransfer.files)
             .closest("form").submit()
-        });
+      });
+    </script>
+    <script>
+      function clicktoupload() {
+        document.getElementById("myFile").click();
+      }
     </script>
   </body>
 </html>
