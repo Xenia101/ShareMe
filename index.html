@@ -102,10 +102,11 @@
         
         <div class="sendstyle" onclick="clicktoupload()">
           <h5><strong>Send</strong></h5>
-          <form class="mb-5" enctype="multipart/form-data" action="/upload" method="post">
+          <form class="mb-5" id="upload_file" enctype="multipart/form-data" action="/upload" method="post">
             <div class="box-file rounded-lg">
               <input class="myFile" id="myFile" type="file" name="myFile" />
               <p class="text-center" style="color:#FEFFFF">Drop Your File Here</p>
+              <button id="submit-file" style="display: none;"></button>
             </div>
           </form>
         </div>
@@ -148,6 +149,10 @@
     <script>
       function clicktoupload() {
         document.getElementById("myFile").click();
+        document.getElementById("myFile").onchange = function() {
+          document.getElementById("upload_file").submit();
+          console.log('done');
+        };
       }
     </script>
   </body>
