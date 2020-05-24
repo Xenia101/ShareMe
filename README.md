@@ -1,8 +1,10 @@
 # SHARE ME
 A file transfer web service
 
+Share files anywhere and on any platform !
 
-## EXAMPLE
+
+## EXAMPLE / USAGE
 
 ### 1. Upload your file that you want to share
 <p align=center>
