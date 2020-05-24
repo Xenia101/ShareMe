@@ -5,9 +5,9 @@ A file transfer web service
 ## EXAMPLE
 
 <p align=center>
-  <img src="https://github.com/Xenia101/ShareMe/blob/master/img/info1.jpg?raw=true">
-  <img src="https://github.com/Xenia101/ShareMe/blob/master/img/info2.jpg?raw=true">
-  <img src="https://github.com/Xenia101/ShareMe/blob/master/img/info3.jpg?raw=true">
+  <img width="200px" src="https://github.com/Xenia101/ShareMe/blob/master/img/info1.jpg?raw=true">
+  <img width="200px" src="https://github.com/Xenia101/ShareMe/blob/master/img/info2.jpg?raw=true">
+  <img width="200px" src="https://github.com/Xenia101/ShareMe/blob/master/img/info3.jpg?raw=true">
 </p>
 
 ## Browser Support
