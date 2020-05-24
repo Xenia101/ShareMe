@@ -1,24 +1,21 @@
 # SHARE ME
-A file transfer web service
-
-Share files anywhere and on any platform !
-
+A file transfer web service / Share files anywhere and on any platform !
 
 ## EXAMPLE / USAGE
 
 ### 1. Upload your file that you want to share
-<p align=center>
+<p>
   <img width="200px" src="https://github.com/Xenia101/ShareMe/blob/master/img/info1.jpg?raw=true">
 </p>
 
 ### 2. Take your personal download code
-<p align=center>
+<p>
   <img width="200px" src="https://github.com/Xenia101/ShareMe/blob/master/img/info2.jpg?raw=true">
 </p>
 
 ### 3. Insert the personal download code into the input form and download the file
 
-<p align=center>
+<p>
   <img width="200px" src="https://github.com/Xenia101/ShareMe/blob/master/img/info3.jpg?raw=true">
 </p>
 
