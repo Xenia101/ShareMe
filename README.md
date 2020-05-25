@@ -1,4 +1,8 @@
 # SHARE ME
+<p align=center>
+  <img src="https://github.com/Xenia101/ShareMe/blob/master/img/info_main.PNG?raw=true">
+</p>
+
 A file transfer web service / Share files anywhere and on any platform !
 
 ## EXAMPLE / USAGE
