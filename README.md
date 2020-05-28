@@ -3,7 +3,7 @@
   <img src="https://github.com/Xenia101/ShareMe/blob/master/img/info_main.PNG?raw=true">
 </p>
 
-A file transfer web service / Share files **anywhere and on any platform** !
+A file transfer web service / Share files **anywhere and on any platform** ! [SHARE ME](http://withme.xyz:5000/)
 
 ## EXAMPLE / USAGE
 
