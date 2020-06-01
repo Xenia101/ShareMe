@@ -17,7 +17,7 @@ A file transfer web service / Share files **anywhere and on any platform** ! [SH
   <img width="200px" src="https://github.com/Xenia101/ShareMe/blob/master/img/info2.jpg?raw=true">
 </p>
 
-### 3. Insert the personal download code into the input form and download the file
+### 3. Insert the personal download code into the input form and download the file (Ex. 68313B)
 
 <p>
   <img width="200px" src="https://github.com/Xenia101/ShareMe/blob/master/img/info3.jpg?raw=true">
