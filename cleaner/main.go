@@ -12,7 +12,7 @@ import (
 )
 
 func Main() {
-	time.AfterFunc(share.CleanupInterval, worker)
+	go worker()
 }
 
 func worker() {
@@ -25,7 +25,7 @@ func worker() {
 		FROM
 			files
 		WHERE
-			created_at < ? AND
+			created_at <= ? AND
 			uploaded = 0
 		LIMIT
 			?, ?
@@ -40,9 +40,9 @@ func worker() {
 		FROM
 			files
 		WHERE
-			expires < ? AND
+			expires <= ? AND
 			uploaded = 1 AND
-			lock = 0
+			downloading = 0
 		LIMIT
 			?, ?
 		`,
@@ -56,7 +56,7 @@ func worker() {
 		FROM
 			files
 		WHERE
-			expires < ? AND
+			expires <= ? AND
 			uploaded = 1
 		LIMIT
 			?, ?
@@ -65,12 +65,12 @@ func worker() {
 	)
 }
 
-func remove(query string, arg ...interface{}) {
+func remove(query string, dt time.Time) {
 	defer func() {
 		if errRaw := recover(); errRaw != nil {
 			err := errRaw.(error)
 
-			log.Println(errors.WithStack(err))
+			log.Printf("%+v\n", errors.WithStack(err))
 			sentry.CaptureException(err)
 		}
 	}()
@@ -93,9 +93,11 @@ func remove(query string, arg ...interface{}) {
 	defer stmt.Close()
 
 	index := 0
+	count := 0
 	for {
 		rows, err := share.DB.Query(
 			query,
+			dt,
 			index,
 			share.CleanupQueryLimit,
 		)
@@ -104,24 +106,32 @@ func remove(query string, arg ...interface{}) {
 		}
 		defer rows.Close()
 
+		count = 0
 		removedIds = removedIds[:0]
 		for rows.Next() {
+			count += 1
 			err = rows.Scan(&id)
 			if err != nil {
 				sentry.CaptureException(err)
 				continue
 			}
 
-			path := filepath.Join(share.DirPublic, id[:2], id)
+			path := filepath.Join(share.DirUpload, id[:2], id)
 			err := os.Remove(path)
 			if err != nil {
 				sentry.CaptureException(err)
 			}
 
+			removedIds = append(removedIds, id)
+
 			index += 1
 		}
 
 		rows.Close()
+
+		if count == 0 {
+			break
+		}
 
 		for _, id = range removedIds {
 			_, err = stmt.Exec(id)

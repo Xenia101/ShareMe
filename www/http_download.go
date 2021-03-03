@@ -17,7 +17,7 @@ import (
 )
 
 func handleDownload(c *gin.Context) {
-	id := c.PostForm("id")
+	id := c.PostForm("privateCode")
 	if id == "" {
 		c.Status(http.StatusNotFound)
 		return
@@ -75,8 +75,8 @@ func changeLock(ctx context.Context, id string, lock bool) (ok bool, fileName st
 		`
 		UPDATE
 			files
-		VALUES
-			lock = lock + ?
+		SET
+			downloading = downloading + ?
 		WHERE
 			id = ?
 		`,

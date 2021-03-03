@@ -1,7 +1,7 @@
 package www
 
 import (
-	"fmt"
+	"log"
 	"net"
 	"net/http"
 	"os"
@@ -28,7 +28,7 @@ func handlePanic(ctx *gin.Context) {
 				ctx.Error(err.(error))
 				ctx.Abort()
 			} else {
-				fmt.Printf("%+v", errors.WithStack(err.(error)))
+				log.Printf("%+v\n", errors.WithStack(err.(error)))
 				sentry.CaptureException(err.(error))
 
 				ctx.Status(http.StatusInternalServerError)

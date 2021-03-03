@@ -11,16 +11,56 @@ import (
 	"os"
 	"path/filepath"
 	"time"
-	"unsafe"
 
 	"github.com/RyuaNerin/ShareMe/share"
 	"github.com/gin-gonic/gin"
 )
 
-const (
-	IdLength = 10
-	IdChars  = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-)
+// i j l 1 같은 혼동되는 문자 방지
+func genId(idRaw []byte, l int) string {
+	il1 := false
+	o0 := false
+	s5 := false
+	z2 := false
+
+	i := 0
+	for i < l {
+		c := share.IdChars[rand.Intn(len(share.IdChars))]
+
+		if c == 'I' || c == 'i' || c == 'j' || c == 'l' || c == '1' {
+			if il1 {
+				continue
+			}
+			il1 = true
+		}
+
+		if c == 'O' || c == 'o' || c == '0' {
+			if o0 {
+				continue
+			}
+			o0 = true
+		}
+
+		if c == 'S' || c == 's' || c == '5' {
+			if s5 {
+				continue
+			}
+			s5 = true
+		}
+
+		if c == 'Z' || c == 'z' || c == '2' {
+			if z2 {
+				continue
+			}
+			z2 = true
+		}
+
+		idRaw[i] = c
+		i++
+	}
+
+	return share.ToString(idRaw[:l])
+}
 
 // with panic
 func newFileId(ctx context.Context) string {
@@ -30,15 +70,20 @@ func newFileId(ctx context.Context) string {
 	}
 	defer tx.Rollback()
 
-	var idRaw [IdLength]byte
 	var id string
+	var idRaw [share.IdMax]byte
+	idLen := share.IdMin
+	idTry := 0
 
 	for {
-		for i := 0; i < IdLength; i++ {
-			idRaw[i] = IdChars[rand.Intn(len(IdChars))]
+		if idTry >= 2 {
+			idLen += 1
+			if idLen > share.IdMax {
+				idLen = share.IdMax
+			}
 		}
+		id = genId(idRaw[:], idLen)
 
-		id = *(*string)(unsafe.Pointer(&idRaw))
 		r, err := tx.ExecContext(
 			ctx,
 			`
@@ -60,6 +105,8 @@ func newFileId(ctx context.Context) string {
 		if ra == 1 {
 			break
 		}
+
+		idTry += 1
 	}
 
 	err = tx.Commit()
@@ -161,12 +208,12 @@ func handleUpload(c *gin.Context) {
 	}
 	defer tx.Rollback()
 
-	tx.ExecContext(
+	r, err := tx.ExecContext(
 		ctx,
 		`
 		UPDATE
 			files
-		VALUES
+		SET
 			uploaded = 1,
 			filename = ?,
 			expires  = ?
@@ -177,6 +224,13 @@ func handleUpload(c *gin.Context) {
 		time.Now().Add(share.ExpireLocked),
 		id,
 	)
+	if err != nil {
+		panic(err)
+	}
+	_, err = r.RowsAffected()
+	if err != nil {
+		panic(err)
+	}
 
 	err = tx.Commit()
 	if err != nil {

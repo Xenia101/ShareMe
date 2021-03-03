@@ -6,6 +6,8 @@ import (
 	"github.com/RyuaNerin/ShareMe/cleaner"
 	"github.com/RyuaNerin/ShareMe/share"
 	"github.com/RyuaNerin/ShareMe/www"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
@@ -17,7 +19,7 @@ func main() {
 		panic(err)
 	}
 	err = share.DB.Ping()
-	if err == nil {
+	if err != nil {
 		panic(err)
 	}
 	defer share.DB.Close()

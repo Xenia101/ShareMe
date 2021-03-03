@@ -15,7 +15,7 @@ func genAES(pw string) (key []byte, iv []byte) {
 	key = hash.Sum(nil)
 
 	hash.Write(pwb)
-	iv = hash.Sum(nil)
+	iv = hash.Sum(nil)[:16]
 
 	return
 }

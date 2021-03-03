@@ -16,7 +16,7 @@ func initGin(g *gin.Engine) {
 
 	g.Static("/static", filepath.Join(share.DirPublic, "static"))
 	g.POST("/upload", handleUpload)
-	g.GET("/download", handleDownload)
+	g.POST("/download", handleDownload)
 
 	g.StaticFile("/", filepath.Join(share.DirPublic, "index.htm"))
 
@@ -25,6 +25,6 @@ func initGin(g *gin.Engine) {
 	})
 
 	g.NoRoute(func(c *gin.Context) {
-		c.Redirect(http.StatusTemporaryRedirect, "/")
+		c.Redirect(http.StatusSeeOther, "/")
 	})
 }
