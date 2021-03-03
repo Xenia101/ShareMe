@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="author" content="XENIA">
+    <meta name="author" content="XENIA, RyuaNerin">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
@@ -96,14 +96,17 @@
         <div class="desc mb-5">
           <blockquote class="blockquote text-center">
             <p class="mb-0 text">SHARE ME is a file transfer web service.</p>
-            <footer class="blockquote-footer text-white-50">Developed by XENIA</footer>
+            <footer class="blockquote-footer text-white-50">Developed by XENIA, RyuaNerin</footer>
           </blockquote>
         </div>
         
         <div class="sendstyle" onclick="clicktoupload()">
           <h5><strong>Send</strong></h5>
-          <form class="mb-5" id="upload_file" enctype="multipart/form-data" action="/upload" method="post">
+          <form class="mb-5" id="upload_file" enctype="multipart/form-data" action="/upload" method="GET">
             <div class="box-file rounded-lg">
+              <div>
+                <input type="password" class="form-control" name="password" maxlength="30" placeholder="Password (Optional)">
+              </div>
               <input class="myFile" id="myFile" type="file" name="myFile" />
               <p class="text-center" style="color:#FEFFFF">Drop Your File Here</p>
               <button id="submit-file" style="display: none;"></button>
@@ -117,6 +120,9 @@
           <div>
             <input type="text" class="form-control" name="privateCode" maxlength="6" placeholder="Input Your Private Code">
           </div>
+          <div>
+            <input type="password" class="form-control" name="password" maxlength="30" placeholder="Password (Optional)">
+          </div>
           <div class="text-center mt-3">
             <input class="btn btn-light" type="submit" name="" id="" value="Download">
           </div>
@@ -127,7 +133,7 @@
     <footer class="foot text-center">
       <h3>
         <img class="git" src="./static/git.png" alt="">
-        <sub><a href="https://github.com/Xenia101/ShareMe">GitHub</a></sub>
+        <sub><a href="https://github.com/RyuaNerin/ShareMe">GitHub</a></sub>
       </h3>
 
     </footer>
