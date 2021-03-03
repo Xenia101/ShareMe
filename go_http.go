@@ -14,7 +14,7 @@ import (
 	"strings"
 )
 
-var tpl = template.Must(template.ParseGlob("code.html"))
+var tpl = template.Must(template.ParseGlob("public/code.html"))
 
 func GetMD5Hash(text string) string {
 	hash := md5.Sum([]byte(text))
@@ -124,8 +124,8 @@ func index(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	mux := http.NewServeMux()
-	fileServer := http.FileServer(http.Dir("static/"))
-	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
+	fileServer := http.FileServer(http.Dir("public/static/"))
+	mux.Handle("/static/", http.StripPrefix("/public/static", fileServer))
 	mux.HandleFunc("/upload", uploadFile)
 	mux.HandleFunc("/download", download)
 	mux.HandleFunc("/", index)
