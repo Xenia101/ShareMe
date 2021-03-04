@@ -11,7 +11,6 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"time"
 
 	"shareme/share"
 
@@ -27,6 +26,7 @@ func genId(idRaw []byte, l int) string {
 	for i < l {
 		c := share.Config.IDRule.Chars[rand.Intn(len(share.Config.IDRule.Chars))]
 
+		cbi = -1
 		for i, cc := range share.Config.IDRule.Conflict {
 			for _, ccc := range cc {
 				if c == ccc {
@@ -218,13 +218,11 @@ func handleUpload(c *gin.Context) {
 			files
 		SET
 			uploaded = 1,
-			filename = ?,
-			uploaded_at = ?
+			filename = ?
 		WHERE
 			id = ?
 		`,
 		filename,
-		time.Now(),
 		id,
 	)
 	if err != nil {

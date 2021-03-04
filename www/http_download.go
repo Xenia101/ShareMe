@@ -59,7 +59,7 @@ func changeLock(ctx context.Context, id string, lock bool) (ok bool, fileName st
 		if err != nil {
 			panic(err)
 		}
-		if createdAt.Before(time.Now().Add(share.Config.Expires.Idle)) {
+		if createdAt.Before(time.Now().Add(-share.Config.Expires.Idle)) {
 			return
 		}
 	}
