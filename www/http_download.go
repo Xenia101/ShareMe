@@ -12,7 +12,8 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/RyuaNerin/ShareMe/share"
+	"shareme/share"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -37,12 +38,12 @@ func changeLock(ctx context.Context, id string, lock bool) (ok bool, fileName st
 	//////////////////////////////////////////////////
 
 	if lock {
-		var expires time.Time
+		var createdAt time.Time
 		err = tx.QueryRowContext(
 			ctx,
 			`
 			SELECT
-				expires,
+				created_at,
 				filename
 			FROM
 				files
@@ -52,13 +53,13 @@ func changeLock(ctx context.Context, id string, lock bool) (ok bool, fileName st
 			`,
 			id,
 		).Scan(
-			&expires,
+			&createdAt,
 			&fileName,
 		)
 		if err != nil {
 			panic(err)
 		}
-		if expires.Before(time.Now()) {
+		if createdAt.Before(time.Now().Add(share.Config.Expires.Idle)) {
 			return
 		}
 	}

@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/RyuaNerin/ShareMe/share"
+	"shareme/share"
 
 	sentry "github.com/getsentry/sentry-go"
 )

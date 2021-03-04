@@ -8,7 +8,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/RyuaNerin/ShareMe/share"
+	"shareme/share"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -25,21 +26,21 @@ func Main() {
 	var l net.Listener
 	var err error
 
-	if _, err := net.ResolveTCPAddr("tcp", share.Config.Listen); err == nil {
-		l, err = net.Listen("tcp", share.Config.Listen)
+	if _, err := net.ResolveTCPAddr("tcp", share.Config.HTTPListen); err == nil {
+		l, err = net.Listen("tcp", share.Config.HTTPListen)
 	} else {
-		if _, err := os.Stat(share.Config.Listen); !os.IsNotExist(err) {
-			err := os.Remove(share.Config.Listen)
+		if _, err := os.Stat(share.Config.HTTPListen); !os.IsNotExist(err) {
+			err := os.Remove(share.Config.HTTPListen)
 			if err != nil {
 				panic(err)
 			}
 		}
 
-		l, err = net.Listen("unix", share.Config.Listen)
+		l, err = net.Listen("unix", share.Config.HTTPListen)
 		if err != nil {
 			panic(err)
 		}
-		err = os.Chmod(share.Config.Listen, 0777)
+		err = os.Chmod(share.Config.HTTPListen, 0777)
 	}
 	if err != nil {
 		panic(err)

@@ -1,5 +1,33 @@
 {
-    "listen"       : ":5000",
+    "http_listen"  : ":5000",
     "mysql_source" : "shareme:54khp1Dkh249gSDF@tcp(ryuar.in:3306)/shareme?parseTime=true&loc=Asia%2FSeoul",
-    "sentry_dsn"   : "https://75c8262726fb43e2b8904dc1a04dbb55@sentry.ryuar.in/25"
+    "sentry_dsn"   : "https://75c8262726fb43e2b8904dc1a04dbb55@sentry.ryuar.in/25",
+
+    "dir": {
+        "public" : "public",
+        "upload" : "uploads"
+    },
+
+    "expires" : {
+        "upload" : "24h",
+        "idle"   : "672h",
+        "forced" : "696h"
+    },
+
+    "cleanup" : {
+        "duration"    : "1h",
+        "query_limit" : 100
+    },
+
+    "id_rule" : {
+        "min" : 5,
+        "max" : 32,
+        "chars" : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
+        "conflict" : [
+            "ilI2",
+            "ji",
+            "Ss5",
+            "Zz2"
+        ]
+    }
 }

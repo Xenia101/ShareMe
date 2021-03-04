@@ -4,7 +4,6 @@ CREATE TABLE `files` (
 	`created_at` DATETIME NOT NULL DEFAULT current_timestamp(),
 	`uploaded` TINYINT(1) NOT NULL DEFAULT '0',
 	`filename` TEXT NULL DEFAULT NULL COLLATE 'utf8mb4_unicode_ci',
-	`expires` DATETIME NULL DEFAULT NULL,
 	`downloading` INT(11) NOT NULL DEFAULT '0',
 	PRIMARY KEY (`id`) USING BTREE
 )

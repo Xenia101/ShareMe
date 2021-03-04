@@ -6,7 +6,8 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/RyuaNerin/ShareMe/share"
+	"shareme/share"
+
 	"github.com/getsentry/sentry-go"
 	"github.com/pkg/errors"
 )
@@ -16,7 +17,7 @@ func Main() {
 }
 
 func worker() {
-	defer time.AfterFunc(share.CleanupInterval, worker)
+	defer time.AfterFunc(share.Config.Cleanup.Duration, worker)
 
 	remove(
 		`
@@ -30,7 +31,7 @@ func worker() {
 		LIMIT
 			?, ?
 		`,
-		time.Now().Add(-share.ExpireUpload),
+		time.Now().Add(-share.Config.Expires.Upload),
 	)
 
 	remove(
@@ -40,13 +41,13 @@ func worker() {
 		FROM
 			files
 		WHERE
-			expires <= ? AND
+			created_at <= ? AND
 			uploaded = 1 AND
 			downloading = 0
 		LIMIT
 			?, ?
 		`,
-		time.Now(),
+		time.Now().Add(-share.Config.Expires.Idle),
 	)
 
 	remove(
@@ -56,12 +57,12 @@ func worker() {
 		FROM
 			files
 		WHERE
-			expires <= ? AND
+			created_at <= ? AND
 			uploaded = 1
 		LIMIT
 			?, ?
 		`,
-		time.Now().Add(-share.ExpireLocked),
+		time.Now().Add(-share.Config.Expires.Forced),
 	)
 }
 
@@ -75,7 +76,7 @@ func remove(query string, dt time.Time) {
 		}
 	}()
 
-	removedIds := make([]string, 0, share.CleanupQueryLimit)
+	removedIds := make([]string, 0, share.Config.Cleanup.QueryLimit)
 	var id string
 
 	stmt, err := share.DB.Prepare(
@@ -99,7 +100,7 @@ func remove(query string, dt time.Time) {
 			query,
 			dt,
 			index,
-			share.CleanupQueryLimit,
+			share.Config.Cleanup.QueryLimit,
 		)
 		if err != nil {
 			panic(err)
@@ -116,7 +117,7 @@ func remove(query string, dt time.Time) {
 				continue
 			}
 
-			path := filepath.Join(share.DirUpload, id[:2], id)
+			path := filepath.Join(share.Config.Dir.Upload, id[:2], id)
 			err := os.Remove(path)
 			if err != nil {
 				sentry.CaptureException(err)

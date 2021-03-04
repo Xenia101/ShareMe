@@ -3,9 +3,9 @@ package main
 import (
 	"database/sql"
 
-	"github.com/RyuaNerin/ShareMe/cleaner"
-	"github.com/RyuaNerin/ShareMe/share"
-	"github.com/RyuaNerin/ShareMe/www"
+	"shareme/cleaner"
+	"shareme/share"
+	"shareme/www"
 
 	_ "github.com/go-sql-driver/mysql"
 )

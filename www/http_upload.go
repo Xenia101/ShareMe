@@ -13,47 +13,37 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/RyuaNerin/ShareMe/share"
+	"shareme/share"
+
 	"github.com/gin-gonic/gin"
 )
 
 // i j l 1 같은 혼동되는 문자 방지
 func genId(idRaw []byte, l int) string {
-	il1 := false
-	o0 := false
-	s5 := false
-	z2 := false
+	cb := make([]bool, len(share.Config.IDRule.Conflict))
+	cbi := -1
 
 	i := 0
 	for i < l {
-		c := share.IdChars[rand.Intn(len(share.IdChars))]
+		c := share.Config.IDRule.Chars[rand.Intn(len(share.Config.IDRule.Chars))]
 
-		if c == 'I' || c == 'i' || c == 'j' || c == 'l' || c == '1' {
-			if il1 {
-				continue
+		for i, cc := range share.Config.IDRule.Conflict {
+			for _, ccc := range cc {
+				if c == ccc {
+					cbi = i
+					break
+				}
 			}
-			il1 = true
+			if cbi != -1 {
+				break
+			}
 		}
 
-		if c == 'O' || c == 'o' || c == '0' {
-			if o0 {
+		if cbi != -1 {
+			if cb[cbi] {
 				continue
 			}
-			o0 = true
-		}
-
-		if c == 'S' || c == 's' || c == '5' {
-			if s5 {
-				continue
-			}
-			s5 = true
-		}
-
-		if c == 'Z' || c == 'z' || c == '2' {
-			if z2 {
-				continue
-			}
-			z2 = true
+			cb[cbi] = true
 		}
 
 		idRaw[i] = c
@@ -72,15 +62,15 @@ func newFileId(ctx context.Context, remoteAddr string) string {
 	defer tx.Rollback()
 
 	var id string
-	var idRaw [share.IdMax]byte
-	idLen := share.IdMin
+	idRaw := make([]byte, share.Config.IDRule.Max)
+	idLen := share.Config.IDRule.Min
 	idTry := 0
 
 	for {
 		if idTry >= 2 {
 			idLen += 1
-			if idLen > share.IdMax {
-				idLen = share.IdMax
+			if idLen > share.Config.IDRule.Max {
+				idLen = share.Config.IDRule.Max
 			}
 			idTry = 0
 		}
@@ -167,7 +157,7 @@ func handleUpload(c *gin.Context) {
 	}
 	defer mpFile.Close()
 
-	dir := filepath.Join(share.DirUpload, id[:2])
+	dir := filepath.Join(share.Config.Dir.Upload, id[:2])
 	os.MkdirAll(dir, share.PermDir)
 
 	{
@@ -229,12 +219,12 @@ func handleUpload(c *gin.Context) {
 		SET
 			uploaded = 1,
 			filename = ?,
-			expires  = ?
+			uploaded_at = ?
 		WHERE
 			id = ?
 		`,
 		filename,
-		time.Now().Add(share.ExpireLocked),
+		time.Now(),
 		id,
 	)
 	if err != nil {

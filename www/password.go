@@ -3,7 +3,7 @@ package www
 import (
 	"crypto/sha256"
 
-	"github.com/RyuaNerin/ShareMe/share"
+	"shareme/share"
 )
 
 func genAES(pw string) (key []byte, iv []byte) {

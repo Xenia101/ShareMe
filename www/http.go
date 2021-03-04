@@ -4,7 +4,8 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"github.com/RyuaNerin/ShareMe/share"
+	"shareme/share"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,13 +14,13 @@ func initGin(g *gin.Engine) {
 	g.Use(handlePanic)
 	g.MaxMultipartMemory = 128 * 1024 // 128 KiB 이상은 모조리 임시파일로
 
-	g.LoadHTMLGlob(filepath.Join(share.DirPublic, "*.htm"))
+	g.LoadHTMLGlob(filepath.Join(share.Config.Dir.Public, "*.htm"))
 
-	g.Static("/static", filepath.Join(share.DirPublic, "static"))
+	g.Static("/static", filepath.Join(share.Config.Dir.Public, "static"))
 	g.POST("/upload", handleUpload)
 	g.POST("/download", handleDownload)
 
-	g.StaticFile("/", filepath.Join(share.DirPublic, "index.htm"))
+	g.StaticFile("/", filepath.Join(share.Config.Dir.Public, "index.htm"))
 
 	g.NoMethod(func(c *gin.Context) {
 		c.Status(http.StatusBadRequest)
