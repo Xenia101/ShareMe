@@ -118,7 +118,7 @@ func handleUpload(c *gin.Context) {
 	if h := c.GetHeader("X-Forwarded-For"); h != "" {
 		uploader_ip = h
 	} else {
-		if h, _, err := net.SplitHostPort(uploader_ip); h != "" && err != nil {
+		if h, _, err := net.SplitHostPort(uploader_ip); h != "" && err == nil {
 			uploader_ip = h
 		}
 	}
