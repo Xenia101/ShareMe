@@ -7,6 +7,7 @@ import (
 	"crypto/cipher"
 	"io"
 	"math/rand"
+	"net"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -63,7 +64,7 @@ func genId(idRaw []byte, l int) string {
 }
 
 // with panic
-func newFileId(ctx context.Context) string {
+func newFileId(ctx context.Context, remoteAddr string) string {
 	tx, err := share.DB.BeginTx(ctx, nil)
 	if err != nil {
 		panic(err)
@@ -81,6 +82,7 @@ func newFileId(ctx context.Context) string {
 			if idLen > share.IdMax {
 				idLen = share.IdMax
 			}
+			idTry = 0
 		}
 		id = genId(idRaw[:], idLen)
 
@@ -89,11 +91,12 @@ func newFileId(ctx context.Context) string {
 			`
 			INSERT IGNORE
 			INTO
-				files ( id )
+				files ( id, remote_addr )
 			VALUES
-				( ? )
+				( ?, ? )
 			`,
 			id,
+			remoteAddr,
 		)
 		if err != nil {
 			panic(err)
@@ -120,8 +123,18 @@ func newFileId(ctx context.Context) string {
 func handleUpload(c *gin.Context) {
 	ctx := c.Request.Context()
 
+	// Remote address
+	uploader_ip := c.Request.RemoteAddr
+	if h := c.GetHeader("X-Forwarded-For"); h != "" {
+		uploader_ip = h
+	} else {
+		if h, _, err := net.SplitHostPort(uploader_ip); h != "" && err != nil {
+			uploader_ip = h
+		}
+	}
+
 	// 업로드 마무리 되지 않은 것은 cleaner 가 알아서 지워줄 것.
-	id := newFileId(ctx)
+	id := newFileId(ctx, uploader_ip)
 
 	mpForm, err := c.MultipartForm()
 	if err != nil {

@@ -9,6 +9,7 @@ import (
 )
 
 func initGin(g *gin.Engine) {
+	g.Use(gin.Logger())
 	g.Use(handlePanic)
 	g.MaxMultipartMemory = 128 * 1024 // 128 KiB 이상은 모조리 임시파일로
 
