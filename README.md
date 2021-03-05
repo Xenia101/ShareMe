@@ -1,6 +1,7 @@
 # SHARE ME
+
 <p align=center>
-  <img src="https://github.com/Xenia101/ShareMe/blob/master/img/info_main.PNG?raw=true">
+  <img src="readme/info_main.PNG">
 </p>
 
 A file transfer web service / Share files **anywhere and on any platform** ! [SHARE ME](http://withme.xyz:5000/)
@@ -8,19 +9,21 @@ A file transfer web service / Share files **anywhere and on any platform** ! [SH
 ## EXAMPLE / USAGE
 
 ### 1. Upload your file that you want to share
+
 <p align=center>
-  <img width="200px" src="https://github.com/Xenia101/ShareMe/blob/master/img/info1.jpg?raw=true">
+  <img width="200px" src="readme/info1.jpg">
 </p>
 
 ### 2. Take your personal download code
+
 <p align=center>
-  <img width="200px" src="https://github.com/Xenia101/ShareMe/blob/master/img/info2.jpg?raw=true">
+  <img width="200px" src="readme/info2.jpg">
 </p>
 
 ### 3. Insert the personal download code into the input form and download the file (Ex. 68313B)
 
 <p align=center>
-  <img width="200px" src="https://github.com/Xenia101/ShareMe/blob/master/img/info3.jpg?raw=true">
+  <img width="200px" src="readme/info3.jpg">
 </p>
 
 > Designed by XENIA with Bootstrap4
