@@ -1,163 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="author" content="XENIA, RyuaNerin">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-    <link rel="shortcut icon" href="./static/favicon.ico">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
-    <title>Share Me</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="author" content="XENIA, RyuaNerin">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-    <style>
-      html, body {
-        background-color: #034f84;
-        height: 100%
-      }
-      .container {
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      .box-file{
-        width: 250px;
-        height: 250px;
-        background-image: url('./static/direction.png');
-        background-size: 50px;
-        background-repeat: no-repeat;
-        background-position: center;
-        padding: 20px;
-        border: 3px #FEFFFF dashed;
-      }
-      #myFile{
-        width: 250px;
-        height: 250px;
-      }
-      .box-file input{
-        display: none;
-      }
-      .navbar{
-        position: absolute;
-        top: 0;
-      }
-      .navbar img{
-        padding: 1%;
-        width: 100px;
-        height: auto;
-      }
-      .pointer{
-        width: 250px;
-        cursor: pointer;
-      }
-      .text{
-        font-family: 'Anton', sans-serif;
-        color: white;
-      }
-      h5{
-        color:white;
-      }
-      .foot{
-        box-shadow: 0px -10px 10px -10px black;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        background-color: white;
-        width: 100%;
-        height: 42px;
-      }
-      .foot a{
-        color: #17252A;
-        text-decoration: none;
-      }
-      .git{
-        width: 26px;
-      }
-      @media screen and (max-width: 600px) {
-        .desc {
-          display: none;
-        }
-        .sendstyle{
-          margin-bottom: -20px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container b-color">
-      <!-- Content here -->
-      <nav class="navbar">
-        <a class="navbar-brand" href="#"><img src="./static/file.png" alt=""></a>
-        <h1 class="text text-center">SHARE ME</h1>
-      </nav>
-      <div class="pointer">
-        <div class="desc mb-5">
-          <blockquote class="blockquote text-center">
-            <p class="mb-0 text">SHARE ME is a file transfer web service.</p>
-            <footer class="blockquote-footer text-white-50">Developed by XENIA, RyuaNerin</footer>
-          </blockquote>
-        </div>
+  <link rel="shortcut icon" href="./static/file.ico">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/style.css">
 
-        <div class="sendstyle" onclick="clicktoupload()">
-          <h5><strong>Send</strong></h5>
-          <form class="mb-5" id="upload_file" enctype="multipart/form-data" action="/upload" method="POST">
-            <div class="box-file rounded-lg">
-              <div>
-                <input type="password" class="form-control" name="password" maxlength="30" placeholder="Password (Optional)">
-              </div>
-              <input class="myFile" id="myFile" type="file" name="myFile" />
-              <p class="text-center" style="color:#FEFFFF">Drop Your File Here</p>
-              <button id="submit-file" style="display: none;"></button>
+  <title>SHARE ME</title>
+</head>
+
+<body>
+  <div class="container b-color">
+    <!-- Content here -->
+    <nav class="navbar">
+      <a class="navbar-brand" href="#"><img src="./static/file.png" alt=""></a>
+      <h1 class="text text-center">SHARE ME</h1>
+    </nav>
+    <div class="pointer">
+      <div class="desc mb-4">
+        <blockquote class="blockquote text-center">
+          <p class="mb-0 text">SHARE ME is a file transfer web service.</p>
+          <footer class="blockquote-footer text-white-50">Developed by XENIA, RyuaNerin</footer>
+        </blockquote>
+      </div>
+
+      <div class="sendstyle" onclick="clicktoupload()">
+        <h5><strong>Send</strong></h5>
+        <form class="mb-5" id="upload_file" enctype="multipart/form-data" action="/upload" method="POST">
+          <div class="box-file rounded-lg">
+            <div>
+              <input type="password" class="form-control" name="password" maxlength="30"
+                placeholder="Password (Optional)">
             </div>
-          </form>
-        </div>
-        <hr>
-
-        <h5><strong>Receive</strong></h5>
-        <form class="mt-3" action="/download" method="post">
-          <div>
-            <input type="text" class="form-control" name="privateCode" maxlength="30" placeholder="Input Your Private Code">
-          </div>
-          <div>
-            <input type="password" class="form-control" name="password" maxlength="30" placeholder="Password (Optional)">
-          </div>
-          <div class="text-center mt-3">
-            <input class="btn btn-light" type="submit" name="" id="" value="Download">
+            <input class="myFile" id="myFile" type="file" name="myFile" />
+            <p class="text-center" style="color:#FEFFFF">Drop Your File Here</p>
+            <button id="submit-file" style="display: none;"></button>
           </div>
         </form>
       </div>
+      <hr>
+
+      <h5><strong>Receive</strong></h5>
+      <form class="mt-3" action="/download" method="post">
+        <div>
+          <input type="text" class="form-control" name="privateCode" maxlength="30"
+            placeholder="Input Your Private Code">
+        </div>
+        <div class="mt-2">
+          <input type="password" class="form-control" name="password" maxlength="30" placeholder="Password (Optional)">
+        </div>
+        <div class="text-center mt-3">
+          <input class="btn btn-light" type="submit" name="" id="" value="Download">
+        </div>
+      </form>
     </div>
+  </div>
 
-    <footer class="foot text-center">
-      <h3>
-        <img class="git" src="./static/git.png" alt="">
-        <sub><a href="https://shareme">GitHub</a></sub>
-      </h3>
-    </footer>
+  <footer class="foot text-center">
+    <h3>
+      <img class="git" src="./static/git.png" alt="">
+      <sub><a href="https://github.com/Xenia101/ShareMe">GitHub</a></sub>
+      <sub>|</sub>
+      <sub>Contributors 
+        <a href="https://github.com/Xenia101">
+          <img class="profile-img" src="./static/XENIA101.png" alt="">
+        </a> 
+        <a href="https://github.com/RyuaNerin">
+          <img class="profile-img" src="./static/Ryuanerin.png" alt="">
+        </a>
+      </sub>
+    </h3>
+  </footer>
 
-    <!-- jQuery CDN -->
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  <!-- jQuery CDN -->
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
 
-    <script>
-      $('.box-file').on("dragover drop", function(e) {
-        e.preventDefault();
-        }).on("drop", function(e) {
-          $("input[type='file']")
-            .prop("files", e.originalEvent.dataTransfer.files)
-            .closest("form").submit()
-      });
-    </script>
-    <script>
-      function clicktoupload() {
-        document.getElementById("myFile").click();
-        document.getElementById("myFile").onchange = function() {
-          document.getElementById("upload_file").submit();
-        };
-      }
-    </script>
-  </body>
+  <script>
+    $('.box-file').on("dragover drop", function (e) {
+      e.preventDefault();
+    }).on("drop", function (e) {
+      $("input[type='file']")
+        .prop("files", e.originalEvent.dataTransfer.files)
+        .closest("form").submit()
+    });
+  </script>
+  <script>
+    function clicktoupload() {
+      document.getElementById("myFile").click();
+      document.getElementById("myFile").onchange = function () {
+        document.getElementById("upload_file").submit();
+      };
+    }
+  </script>
+</body>
+
 </html>

@@ -1,0 +1,105 @@
+html,
+body {
+  background-color: #3F51B5;
+  height: 100%
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box-file {
+  width: 250px;
+  height: 250px;
+  background-image: url('../direction.png');
+  background-size: 50px;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, .1);
+  border: 3px #E8EAF6 dashed;
+}
+
+#myFile {
+  width: 250px;
+  height: 250px;
+}
+
+.box-file input {
+  display: none;
+}
+
+.navbar {
+  position: absolute;
+  top: 0;
+}
+
+.navbar img {
+  padding: 1%;
+  width: 80px;
+  height: auto;
+}
+
+.pointer {
+  width: 250px;
+  cursor: pointer;
+}
+
+.text {
+  font-family: 'Anton', sans-serif;
+  color: #E8EAF6;
+}
+
+h5 {
+  color: #E8EAF6;
+}
+
+.foot {
+  box-shadow: 0px -10px 10px -10px black;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #E8EAF6;
+  width: 100%;
+  height: 42px;
+}
+
+.foot a {
+  color: #17252A;
+  text-decoration: none;
+}
+
+.git {
+  width: 26px;
+}
+
+.profile-img {
+  width: 26px;
+  margin-bottom: 8px;
+  border-radius: 50px;
+}
+
+@media screen and (max-width: 600px) {
+  .navbar {
+    margin-top: 10px;
+  }
+
+  .desc {
+    display: none;
+  }
+
+  .sendstyle {
+    margin-bottom: -20px;
+  }
+
+  .sendstyle h5 {
+    display: none;
+  }
+
+  .pointer {
+    margin-top: 45px;
+  }
+}

@@ -1,0 +1,77 @@
+html,
+body {
+  background-color: #3F51B5;
+  height: 100%
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar {
+  position: absolute;
+  top: 0;
+}
+
+.navbar img {
+  padding: 1%;
+  width: 80px;
+  height: auto;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.text {
+  font-family: 'Anton', sans-serif;
+  color: #E8EAF6;
+}
+
+.text-code {
+  color: #E8EAF6;
+}
+
+.back img {
+  width: 25px;
+  height: auto;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, .1);
+  padding: 25px;
+}
+
+.foot {
+  box-shadow: 0px -10px 10px -10px black;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #E8EAF6;
+  width: 100%;
+  height: 42px;
+}
+
+.foot a {
+  color: #17252A;
+  text-decoration: none;
+}
+
+.git {
+  width: 26px;
+}
+
+.profile-img {
+  width: 26px;
+  margin-bottom: 8px;
+  border-radius: 50px;
+}
+
+@media screen and (max-width: 600px) {
+  .navbar {
+    margin-top: 10px;
+  }
+}
