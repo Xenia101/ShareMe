@@ -1,7 +1,7 @@
 {
     "http_listen"  : ":5000",
-    "mysql_source" : "shareme:54khp1Dkh249gSDF@tcp(ryuar.in:3306)/shareme?parseTime=true&loc=Asia%2FSeoul",
-    "sentry_dsn"   : "https://75c8262726fb43e2b8904dc1a04dbb55@sentry.ryuar.in/25",
+    "mysql_source" : "USER:PASSWORD@tcp(exmaple.com:3306)/database?parseTime=true&loc=Asia%2FSeoul",
+    "sentry_dsn"   : "https://user@example.com/25",
 
     "dir": {
         "public" : "public",
